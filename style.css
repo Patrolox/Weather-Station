@@ -1,0 +1,93 @@
+html {
+  font-family: Arial;
+  display: inline-block;
+  margin: 0px auto;
+  text-align: center;
+}
+body {
+  background-color: hsl(200, 6%, 52%);
+}
+h2 {
+  font-size: 3rem;
+}
+p {
+  font-size: 3rem;
+}
+.units {
+  font-size: 1.2rem;
+}
+.labels {
+  font-size: 1.5rem;
+  vertical-align: middle;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 15px; /* adjust the margin as per your preference */
+}
+
+.button {
+  background-color: #3f9c85;
+  border: none;
+  color: black;
+  padding: 15px 15px; /* increase the padding as per your preference */
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.2rem; /* increase the font-size as per your preference */
+  margin: 5px 0;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+#container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+/* 
+nav {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  box-sizing: border-box;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  /* display: flex; */
+/* justify-content: center; */
+/* }
+
+nav li {
+  display: inline-block;
+  margin-right: 0 10px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 5px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  background-color: #fff;
+  color: #333;
+ } */
+#author {
+  font-size: small;
+  float: right;
+}

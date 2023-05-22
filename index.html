@@ -1,0 +1,192 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h2>ESP8266 Weather Station</h2>
+    <div id="container">
+      <i
+        class="material-symbols-rounded"
+        style="font-size: 88px; overflow: hidden; color: #2a667a"
+        >speed</i
+      >
+      <span class="labels">Pressure </span>
+      <p id="pressure">%PRESSURE%</p>
+
+      <sup class="units">hPa</sup><br />
+    </div>
+
+    <div id="container">
+      <i
+        class="material-symbols-rounded"
+        style="font-size: 88px; color: #059e8a"
+        >thermometer</i
+      >
+      <span class="labels">Temperature </span>
+      <p id="temperature">%TEMPERATURE%</p>
+      <sup class="units">&deg;C</sup><br />
+    </div>
+
+    <div id="container">
+      <i
+        class="material-symbols-rounded"
+        style="font-size: 88px; color: #00acd6"
+        >humidity_mid</i
+      >
+      <span class="labels">Humidity </span>
+      <p id="humidity">53</p>
+      <sup class="units">%</sup><br />
+    </div>
+    <div id="container">
+      <iframe
+        id="temperatureChart"
+        frameborder="0"
+        scrolling="no"
+        style="
+          overflow: hidden;
+          height: 450;
+          width: 90%;
+          border: 1px solid #080101;
+        "
+        src="https://thingspeak.com/channels/2037671/charts/1?&width=auto&height=auto&bgcolor=%23d2d3d4&color=%23059e8a&results=720&dynamic=true&round=2&average=60&title=Temperature&type=line&xaxis=Timestamp&yaxis=Temperature%5B°C%5D"
+      ></iframe>
+      <div class="button-container">
+        <button class="button" onClick="changeTimespan(1, '12H');">12H</button>
+        <button class="button" onClick="changeTimespan(1, 1);">1D</button>
+        <button class="button" onClick="changeTimespan(1, 3);">3D</button>
+        <button class="button" onClick="changeTimespan(1, 7);">7D</button>
+      </div>
+    </div>
+    <div id="container">
+      <iframe
+        id="pressureChart"
+        frameborder="0"
+        scrolling="no"
+        style="
+          overflow: hidden;
+          height: 450;
+          width: 90%;
+          border: 1px solid #080101;
+        "
+        src="https://thingspeak.com/channels/2037671/charts/2?&width=auto&height=auto&&bgcolor=%23d2d3d4&color=%232a667a&results=720&dynamic=true&round=2&average=60&title=Pressure&type=line&xaxis=Timestamp&yaxis=Pressure%5BhPa%5D"
+      ></iframe>
+      <div class="button-container">
+        <button class="button" onClick="changeTimespan(2, '12H');">12H</button>
+        <button class="button" onClick="changeTimespan(2, 1);">1D</button>
+        <button class="button" onClick="changeTimespan(2, 3);">3D</button>
+        <button class="button" onClick="changeTimespan(2, 7);">7D</button>
+      </div>
+    </div>
+    <div id="container">
+      <iframe
+        id="humidityChart"
+        frameborder="0"
+        scrolling="no"
+        style="
+          overflow: hidden;
+          height: 450;
+          width: 90%;
+          border: 1px solid #080101;
+        "
+        src="https://thingspeak.com/channels/2037671/charts/3?&width=auto&height=auto&&bgcolor=%23d2d3d4&color=%232a667a&results=720&dynamic=true&round=2&average=60&title=Humidity&type=line&xaxis=Timestamp&yaxis=Humidity%5B%25%5D"
+      ></iframe>
+      <div class="button-container">
+        <button class="button" onClick="changeTimespan(3, '12H');">12H</button>
+        <button class="button" onClick="changeTimespan(3, 1);">1D</button>
+        <button class="button" onClick="changeTimespan(3, 3);">3D</button>
+        <button class="button" onClick="changeTimespan(3, 7);">7D</button>
+      </div>
+    </div>
+    <!-- <span id="author">by Papryk</span> -->
+  </body>
+  <script>
+    var idOfChart, chartType, name, label;
+
+    function determineChart(val) {
+      console.log("val:" + val);
+      switch (val) {
+        case 1:
+          idOfChart = "temperatureChart";
+          chartType = 1;
+          name = "Temperature";
+          label = "°C";
+          break;
+        case 2:
+          idOfChart = "pressureChart";
+          chartType = 2;
+          name = "Pressure";
+          label = "hPa";
+          break;
+        case 3:
+          idOfChart = "humidityChart";
+          chartType = 3;
+          name = "Humidity";
+          label = "%25";
+          break;
+      }
+    }
+    function changeTimespan(val1, val2) {
+      console.log("val1:" + val1);
+      console.log("val2:" + val2);
+      determineChart(val1);
+      let timespan;
+      if (val2 == "12H") {
+        timespan = "results=720";
+        console.log("timespan 12H :" + timespan);
+      } else {
+        timespan = "days=" + val2;
+        console.log("timespan days :" + timespan);
+      }
+      console.log("timespan to URL :" + timespan);
+      document.getElementById(idOfChart).src =
+        "https://thingspeak.com/channels/2037671/charts/" +
+        chartType +
+        "?a&width=auto&height=auto&bgcolor=%23d2d3d4&color=%232a667a&" +
+        timespan +
+        "&dynamic=true&round=2&average=60&title=" +
+        name +
+        "&type=line&xaxis=Timestamp&yaxis=" +
+        name +
+        "%5B" +
+        label +
+        "%5D";
+    }
+    const pressure_url =
+      "https://api.thingspeak.com/channels/2037671/feeds.json?results=1";
+    // "https://api.thingspeak.com/channels/2037671/fields/2/last.json";
+
+    // var currentDate = new Date();
+    // var dt2;
+    const updateTime = setInterval(getLatestParameters, 10000);
+    async function getLatestParameters() {
+      const response = await fetch(pressure_url);
+      const data = await response.json();
+      document.getElementById("temperature").innerHTML = parseInt(
+        data.feeds[0].field1
+      ).toPrecision(3);
+      document.getElementById("pressure").innerHTML = parseInt(
+        data.feeds[0].field2
+      ).toPrecision(5);
+      document.getElementById("humidity").innerHTML = parseInt(
+        data.feeds[0].field3
+      ).toPrecision(2);
+      console.log("json", parseInt(data.feeds[0].field1).toPrecision(3));
+      // dt2 = new Date(data.feeds[0].created_at);
+      // console.log("dt2", dt2);
+      // console.log("halko");
+      // console.log("current Date: ", currentDate);
+      // diff = currentDate - dt2;
+      // console.log("diff", diff);
+      // if (diff > 60e3) console.log(Math.floor(diff / 60e3), "minutes ago");
+      // else console.log(Math.floor(diff / 1e3), "seconds ago");
+    }
+
+    getLatestParameters();
+    //document.getElementById("date-time").innerHTML = currentDate;
+  </script>
+</html>
