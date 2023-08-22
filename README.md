@@ -2,6 +2,8 @@
 
 This project is a weather station application based on NodeMCU, which collects and displays weather data from various sensors. It utilizes Wi-Fi connectivity to retrieve current and future weather information from OpenWeatherMaps. In addition, it retrieves time and date from an internet clock. The project incorporates a BMP280 sensor for measuring indoor parameters, while an OLED screen serves as the display.
 
+[Check real-time log from my place](https://weaterstationesp.000webhostapp.com)
+
 ## Features
 
 - Collects real-time weather data from OpenWeatherMaps API
